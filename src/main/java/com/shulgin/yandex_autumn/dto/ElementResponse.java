@@ -6,14 +6,20 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public class ElementResponse {
+    private UUID id;
     private ElementType type;
     private long size;
     private String url;
     private UUID parentId;
-    private ZonedDateTime date;
+    private String date;
     private ElementResponse[] children;
 
-    public ElementResponse() {
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public ElementType getType() {
@@ -48,11 +54,11 @@ public class ElementResponse {
         this.parentId = parentId;
     }
 
-    public ZonedDateTime getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(ZonedDateTime date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

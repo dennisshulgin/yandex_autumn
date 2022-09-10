@@ -5,12 +5,20 @@ import com.shulgin.yandex_autumn.entity.Element;
 import com.shulgin.yandex_autumn.entity.File;
 import com.shulgin.yandex_autumn.entity.Folder;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ResponseBuildUtil {
+
+    private final static DateTimeFormatter dtf = DateTimeFormatter
+            .ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
     public static ElementResponse buildResponse(Element element) {
         ElementResponse elementResponse = new ElementResponse();
-        elementResponse.setDate(element.getDate());
+        elementResponse.setId(element.getId());
+        elementResponse.setDate(zonedDateTimeToString(element.getDate()));
         elementResponse.setType(element.getType());
         elementResponse.setParentId(element.getParentId());
         elementResponse.setSize(element.getSize());
@@ -36,4 +44,17 @@ public class ResponseBuildUtil {
         }
         return elementResponse;
     }
+
+    public static String zonedDateTimeToString(ZonedDateTime dateTime) {
+        return dateTime
+                .withZoneSameInstant(ZoneId.of("+00:00"))
+                .format(dtf);
+    }
+
+    public static ZonedDateTime stringToZonedDateTime(String date) {
+        return ZonedDateTime.parse(date);
+    }
+
+
+
 }

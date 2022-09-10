@@ -8,6 +8,7 @@ import com.shulgin.yandex_autumn.exception.ValidationException;
 import com.shulgin.yandex_autumn.repository.ElementRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,6 +31,7 @@ public class ElementService {
 
     public void save(Element element) {
         elementRepository.save(element);
+        updateDate(element);
     }
 
     public Optional<Element> findElementById(UUID id) {
@@ -47,6 +49,20 @@ public class ElementService {
                 parentElement.setSize(parentElement.getSize() + size);
                 save(parentElement);
                 updateSize(parentElement, size);
+            }
+        }
+    }
+
+    public void updateDate(Element element) {
+        UUID parent = element.getParentId();
+        if(parent != null) {
+            Optional<Element> optionalParentElement = elementRepository.findElementById(parent);
+            if(optionalParentElement.isPresent())
+            {
+                Element parentElement = optionalParentElement.get();
+                parentElement.setDate(element.getDate());
+                save(parentElement);
+                updateDate(parentElement);
             }
         }
     }
