@@ -3,10 +3,8 @@ package com.shulgin.yandex_autumn.controller;
 import com.shulgin.yandex_autumn.dto.ElementResponse;
 import com.shulgin.yandex_autumn.dto.ImportElement;
 import com.shulgin.yandex_autumn.dto.ImportRequest;
-import com.shulgin.yandex_autumn.entity.Element;
-import com.shulgin.yandex_autumn.entity.ElementType;
-import com.shulgin.yandex_autumn.entity.File;
-import com.shulgin.yandex_autumn.entity.Folder;
+import com.shulgin.yandex_autumn.dto.StatisticResponse;
+import com.shulgin.yandex_autumn.entity.*;
 import com.shulgin.yandex_autumn.exception.ItemNotFoundException;
 import com.shulgin.yandex_autumn.exception.ValidationException;
 import com.shulgin.yandex_autumn.service.ElementService;
@@ -101,5 +99,24 @@ public class MainController {
             response[i] = ResponseBuildUtil.buildResponse(files.get(i));
         }
         return response;
+    }
+
+    @GetMapping("/node/{id}/history")
+    public StatisticResponse[] history(@PathVariable UUID id) {
+        Optional<Element> optionalElement = elementService.findElementById(id);
+        if(optionalElement.isPresent()) {
+            Element element = optionalElement.get();
+            List<Statistic> statistics = element.getStatistics();
+            int historySize = statistics.size();
+            StatisticResponse[] statisticResponses = new StatisticResponse[historySize];
+            for (int i = 0; i < historySize; i++) {
+                statisticResponses[i] = new StatisticResponse();
+                statisticResponses[i].setSize(statistics.get(i).getSize());
+                statisticResponses[i].setUpdateDate(ResponseBuildUtil
+                        .zonedDateTimeToString(statistics.get(i).getDate()));
+            }
+            return statisticResponses;
+        }
+        return null;
     }
 }

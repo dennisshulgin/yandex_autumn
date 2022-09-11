@@ -1,10 +1,9 @@
 package com.shulgin.yandex_autumn.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -16,6 +15,9 @@ public abstract class Element {
     private ZonedDateTime date;
     private UUID parentId;
     private long size;
+
+    @OneToMany(mappedBy = "elemId", orphanRemoval = true)
+    private List<Statistic> statistics = new ArrayList<>();
 
     public UUID getId() {
         return id;
@@ -55,5 +57,13 @@ public abstract class Element {
 
     public void setSize(long size) {
         this.size = size;
+    }
+
+    public List<Statistic> getStatistics() {
+        return statistics;
+    }
+
+    public void setStatistics(List<Statistic> statistics) {
+        this.statistics = statistics;
     }
 }

@@ -12,7 +12,7 @@ public class Statistic {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private UUID elementId;
+    private UUID elemId;
     private ZonedDateTime date;
     private long size;
 
@@ -24,12 +24,12 @@ public class Statistic {
         this.id = id;
     }
 
-    public UUID getElementId() {
-        return elementId;
+    public UUID getElemId() {
+        return elemId;
     }
 
-    public void setElementId(UUID elementId) {
-        this.elementId = elementId;
+    public void setElemId(UUID elementId) {
+        this.elemId = elementId;
     }
 
     public ZonedDateTime getDate() {
