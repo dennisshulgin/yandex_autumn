@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  app:
+    image: 'yandex_autumn_shulgin:latest'
+    container_name: yandex_autumn_shulgin
+    ports:
+      - "80:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/yandex
+      - SPRING_DATASOURCE_USERNAME=yandex
+      - SPRING_DATASOURCE_PASSWORD=yandex
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  db:
+    image: 'postgres'
+    container_name: db
+    environment:
+      - POSTGRES_USER=yandex
+      - POSTGRES_PASSWORD=yandex
+      - POSTGRES_DB=yandex
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - .:/var/lib/postgresql/data
