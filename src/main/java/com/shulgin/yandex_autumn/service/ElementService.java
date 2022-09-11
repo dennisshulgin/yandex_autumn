@@ -33,6 +33,19 @@ public class ElementService {
     }
 
     public void save(Element element) {
+        Optional<Element> optionalElement = elementRepository.findElementById(element.getId());
+        if(optionalElement.isPresent()) {
+            Element oldElement = optionalElement.get();
+            UUID oldParentId = oldElement.getParentId();
+            UUID parentId = element.getParentId();
+            long oldSize = oldElement.getSize();
+            if(parentId != null && !parentId.equals(oldParentId)) {
+                Optional<Element> oldParentOptional = elementRepository.findElementById(oldParentId);
+                if(oldParentOptional.isPresent()) {
+                    updateSize(oldElement, -oldSize);
+                }
+            }
+        }
         elementRepository.save(element);
         updateDate(element);
     }
