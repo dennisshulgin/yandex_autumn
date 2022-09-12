@@ -54,7 +54,4 @@ public class ResponseBuildUtil {
     public static ZonedDateTime stringToZonedDateTime(String date) {
         return ZonedDateTime.parse(date);
     }
-
-
-
 }

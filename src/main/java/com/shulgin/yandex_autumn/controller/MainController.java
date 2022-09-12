@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Основной контроллер, принимающий запросы от клиентов.
+ */
 @RestController
 public class MainController {
 
@@ -35,8 +38,14 @@ public class MainController {
         this.fileService = fileService;
     }
 
+    /**
+     * Метод импортирует новые файлы и папки или обновляет информацию об уже существующих.
+     * @param importRequest объект запроса. Содержит дату и элементы из запроса.
+     * @throws ValidationException исключение во время валидации запроса.
+     */
     @PostMapping(value = "/imports")
     public void imports(@RequestBody ImportRequest importRequest) throws ValidationException {
+        // проверка запроса на корректность
         boolean isValidRequest = validationService.checkImportRequest(importRequest);
         ZonedDateTime updateDate = importRequest.getUpdateDate();
         if(!isValidRequest) {
@@ -45,6 +54,7 @@ public class MainController {
 
         ImportElement[] importElements = importRequest.getItems();
 
+        // конвертация элементов в объекты для базы данных
         for(ImportElement importElement : importElements) {
             ElementType elementType = importElement.getType();
             switch (elementType) {
@@ -66,6 +76,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Метод удаляет элемент по ID.
+     * @param id идентификатор объекта.
+     * @throws ItemNotFoundException исключение в случае отсутствия элемента в БД.
+     */
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable UUID id) throws ItemNotFoundException {
         Optional<Element> optionalElement = elementService.findElementById(id);
@@ -75,6 +90,12 @@ public class MainController {
         elementService.deleteById(id);
     }
 
+    /**
+     * Метод проверяет наличие элемента в БД и возвращает дерево элементов, начиная с текущего.
+     * @param id идентификатор объекта.
+     * @return дерево элементов.
+     * @throws ItemNotFoundException исключение в случае отсутствия элемента в БД.
+     */
     @GetMapping("/nodes/{id}")
     public ElementResponse nodes(@PathVariable UUID id) throws ItemNotFoundException {
         Optional<Element> optionalElement = elementService.findElementById(id);
@@ -84,6 +105,12 @@ public class MainController {
         return ResponseBuildUtil.buildResponse(optionalElement.get());
     }
 
+    /**
+     * Метод возвращает элементы, которые были обновлены в последние 24 часа.
+     * @param date дата запроса.
+     * @return массив элементов, обновленных за последний 24 часа.
+     * @throws ValidationException исключение при валидации даты.
+     */
     @GetMapping("/updates")
     public ElementResponse[] updates(@RequestParam("date") String date) throws ValidationException{
         ZonedDateTime endDate;
@@ -101,6 +128,11 @@ public class MainController {
         return response;
     }
 
+    /**
+     * Метод возвращает статистику изменений размера файла или каталога по заданному идентификатору.
+     * @param id идентификатор объекта.
+     * @return массив с изменениями объекта.
+     */
     @GetMapping("/node/{id}/history")
     public StatisticResponse[] history(@PathVariable UUID id) {
         Optional<Element> optionalElement = elementService.findElementById(id);
