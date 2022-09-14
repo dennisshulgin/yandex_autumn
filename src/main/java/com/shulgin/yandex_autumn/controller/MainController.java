@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Основной контроллер, принимающий запросы от клиентов.
@@ -53,7 +51,15 @@ public class MainController {
         }
 
         ImportElement[] importElements = importRequest.getItems();
-
+        Arrays.sort(importElements, (o1, o2) -> {
+            if(o1.getType() == ElementType.FOLDER && o2.getType() == ElementType.FOLDER) {
+                return 0;
+            } else if(o1.getType() == ElementType.FOLDER && o2.getType() != ElementType.FOLDER) {
+                return -1;
+            } else {
+                return 1;
+            }
+        });
         // конвертация элементов в объекты для базы данных
         for(ImportElement importElement : importElements) {
             ElementType elementType = importElement.getType();

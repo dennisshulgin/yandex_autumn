@@ -1,0 +1,12 @@
+{
+  "items": [
+    {
+      "type": "FILE",
+      "url": "/file/url15",
+      "id": "94b81fda-9cdc-4b63-8927-c948afed5cf4",
+      "parentId": "9cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
+      "size": 512
+    }
+  ],
+  "updateDate": "2022-02-03T12:00:00Z"
+}

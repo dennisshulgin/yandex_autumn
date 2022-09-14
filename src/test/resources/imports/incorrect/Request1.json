@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "type": "FILE",
+      "url": "/file/url10",
+      "id": "74b81fda-9cdc-4b63-8927-c978afed5cf7",
+      "parentId": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
+      "size": 512
+    },
+    {
+      "type": "FILE",
+      "url": "/file/url11",
+      "id": "74b81fda-9cdc-4b63-8927-c978afed5cf7",
+      "parentId": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
+      "size": 1024
+    }
+  ],
+  "updateDate": "2022-02-03T12:00:00Z"
+}

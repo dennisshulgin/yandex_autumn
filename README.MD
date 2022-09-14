@@ -20,7 +20,7 @@
 
 <b>Сборка проекта: </b>
 <br/>
-./mvnv package
+mvn clean package -DskipTests
 <br/>
 docker build -t denisshulgin/yandex_autumn .
 <br/>

@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   app:
-    image: 'denisshulgin/yandex_autumn:2.0'
+    image: 'denisshulgin/yandex_autumn:latest'
     container_name: yandex_autumn_shulgin
     ports:
       - "80:8080"
